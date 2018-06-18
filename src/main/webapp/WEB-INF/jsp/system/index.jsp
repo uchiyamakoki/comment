@@ -71,6 +71,7 @@
 		                </div>
 		            </div>
 		            <ul class="nav" id="menuDiv">
+		            	<li onclick="clickFirstMenu(this)" class=""><a><span>内容管理</span></a></li>
 		            </ul>
 		        </div>
 		    </div>
@@ -81,7 +82,7 @@
 		                <td class="leftTd" style="vertical-align:top" width="150">
 		                    <div class="left">
 		                        <div class="ileft" id="subMenuDiv">
-		                        	
+		                        	<h3 onclick="clickSubMenu(this,'/ad')"><a>广告管理</a></h3>
 		                        </div>
 		                    </div>
 		                </td>
