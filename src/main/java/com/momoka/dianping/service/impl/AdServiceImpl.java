@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.momoka.dianping.bean.Ad;
@@ -17,6 +18,9 @@ public class AdServiceImpl implements AdService{
 	@Autowired
 	private AdDao adDao;
 	
+	@Value("${adImage.savePath}")
+	private String adImageSavePath;
+	
 	@Override
 	public boolean add(AdDto adDto) {
 		// TODO Auto-generated method stub
@@ -24,14 +28,25 @@ public class AdServiceImpl implements AdService{
 		ad.setTitle(adDto.getTitle());
 		ad.setLink(adDto.getLink());
 		ad.setWeight(adDto.getWeight());
-		File file=new File("");
-		try {
-			adDto.getImgFile().transferTo(file);
-		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(adDto.getImgFile()!=null&&adDto.getImgFile().getSize()>0){
+			String fileName=System.currentTimeMillis()+"_"+adDto.getImgFile().getOriginalFilename();
+			File file=new File(adImageSavePath+fileName);
+			File fileFolder=new File(adImageSavePath);
+			if(!fileFolder.exists()){
+				fileFolder.mkdirs();
+			}
+			try {
+				adDto.getImgFile().transferTo(file);
+				ad.setImgFileName(fileName);
+				adDao.insert(ad);
+				return true;
+			} catch (IllegalStateException | IOException e) {
+				return false;
+			}
+		}else {
+			return false;
 		}
-		return false;
+	
 	}
 
 }

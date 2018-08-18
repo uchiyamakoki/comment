@@ -16,7 +16,7 @@ public class AdController {
 	
 	@RequestMapping
 	public String init(){
-		return "/content/adList";
+		return "/content/addList";
 	}
 	@RequestMapping("/addInit")
 	public String addInit(){
