@@ -23,7 +23,7 @@ public class AdServiceImpl implements AdService{
 	
 	@Override
 	public boolean add(AdDto adDto) {
-		// TODO Auto-generated method stub
+		// TODO 可以获取失败详细原因
 		Ad ad=new Ad();
 		ad.setTitle(adDto.getTitle());
 		ad.setLink(adDto.getLink());
