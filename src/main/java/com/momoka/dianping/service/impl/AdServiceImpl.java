@@ -2,11 +2,15 @@ package com.momoka.dianping.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.mchange.v2.beans.BeansUtils;
 import com.momoka.dianping.bean.Ad;
 import com.momoka.dianping.dao.AdDao;
 import com.momoka.dianping.dto.AdDto;
@@ -48,5 +52,22 @@ public class AdServiceImpl implements AdService{
 		}
 	
 	}
+
+	
+	public List<AdDto> searchByPage(AdDto adDto) {
+		List<AdDto> result=new ArrayList<AdDto>();
+		Ad condition=new Ad();
+		BeanUtils.copyProperties(adDto, condition);
+		List<Ad> adList=adDao.selectByPage(condition);
+		for(Ad ad:adList){
+			AdDto adDtoTemp=new AdDto();
+			result.add(adDtoTemp);
+			BeanUtils.copyProperties(ad, adDtoTemp);
+		}
+		
+		return result;
+	}
+
+	
 
 }

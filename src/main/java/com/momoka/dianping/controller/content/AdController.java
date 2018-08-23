@@ -25,6 +25,12 @@ public class AdController {
 		return "/content/adAdd";
 	}
 	
+	@RequestMapping("/search")
+	public String search(Model model,AdDto adDto){
+		model.addAttribute("list",adService.searchByPage(adDto));
+		return "/content/addList";
+	}
+	
 	@RequestMapping("/add")
 	public String add(AdDto adDto,Model model){
 		if(adService.add(adDto)){
