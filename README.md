@@ -55,3 +55,53 @@ common.showMessage = function(msg) {
 }
 ```
 
+2018.9.1：
+
+这次主要是分页标签封装，把东西都放在一个form表单里，然后用jstl去展示数据
+
+``` HTML
+
+								<c:forEach items="${list}" var="item" varStatus="s">
+									<tr>
+										<td>${s.index + 1}</td>
+										<td>${item.title}</td>
+										<td>${item.link}</td>
+										<td>
+													</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>									
+```
+
+然后是接口的编写。这里用Model存储数据，AdDto接收过滤条件
+
+``` HTML
+@RequestMapping("/search")
+	public String search(Model model,AdDto adDto){
+		model.addAttribute("list",adService.searchByPage(adDto));
+		return "/content/addList";
+	}								
+```
+
+复习一下，其实model和session都是存放信息的地方，不同的地方就是他们的生命周期不同，model是request级别的。
+ModelandView是将  视图信息和数据封装到一起的，spring来解析ModelandView中的信息，包括视图和数据 ，然后将数据set到request里面，并且根据model里面的视图信息以及spring mvc的配置让request进行跳转。
+####  这里就是model.addAttribute("list",adService.searchByPage(adDto)); 
+把查出来的数据放到list中去，然后上面在前端用c：foreach来处理
+
+再说一下AdDto。AdDto继承Ad，但是多了这俩
+``` HTML
+    private String img;
+    
+    private MultipartFile imgFile;							
+```
+然后就是adService.searchByPage(adDto)
+
+
+
+
+
+
+
+
+
