@@ -8,8 +8,8 @@
 		 values(#{title},#{imgFileName},#{link},#{weight})
 	</insert>
 	
-		<select id="selectByPage" resultType="Ad">
-		select id,title,img_file_name,link,weight from ad
+	<select id="selectByPage" resultType="Ad">
+		select id,title,img_file_name as imgFileName,link,weight from ad
 		<where>
 			<if test="title != null and title != ''">
 				title like '%' #{title} '%'
