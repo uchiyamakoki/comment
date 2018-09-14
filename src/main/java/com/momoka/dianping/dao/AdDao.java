@@ -9,4 +9,8 @@ public interface AdDao {
 
 	List<Ad> selectByPage(Ad condition);
 
+	int update(Ad ad);
+
+	Ad selectById(Long id);
+
 }

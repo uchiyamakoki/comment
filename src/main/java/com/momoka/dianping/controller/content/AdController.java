@@ -55,4 +55,27 @@ public class AdController {
 		
 		return "/content/adAdd";
 	}
+	
+	/**
+	 * 修改页初始化
+	 */
+	@RequestMapping("/modifyInit")
+	public String modifyInit(Model model, @RequestParam("id") Long id) {
+		model.addAttribute("modifyObj", adService.getById(id));
+		return "/content/adModify";
+	}
+	
+	/**
+	 * 修改
+	 */
+	@RequestMapping("/modify")
+	public String modify(Model model, AdDto adDto) {
+		model.addAttribute("modifyObj", adDto);
+		if (adService.modify(adDto)) {
+			model.addAttribute(PageCodeEnum.KEY, PageCodeEnum.MODIFY_SUCCESS);
+		} else {
+			model.addAttribute(PageCodeEnum.KEY, PageCodeEnum.MODIFY_FAIL);
+		}
+		return "/content/adModify";
+	}
 }

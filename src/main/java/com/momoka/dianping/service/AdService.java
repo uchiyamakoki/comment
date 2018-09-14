@@ -11,5 +11,14 @@ public interface AdService {
 	boolean add(AdDto adDto);
 
 	List<AdDto> searchByPage(AdDto adDto);
+	
+	 /**
+     * 修改广告
+     * @param adDto
+     * @return 是否修改成功：true-成功;fale-失败
+     */
+    boolean modify(AdDto adDto);
+
+	Object getById(Long id);
 
 }

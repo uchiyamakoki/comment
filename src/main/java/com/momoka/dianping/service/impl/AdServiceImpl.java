@@ -15,6 +15,7 @@ import com.momoka.dianping.bean.Ad;
 import com.momoka.dianping.dao.AdDao;
 import com.momoka.dianping.dto.AdDto;
 import com.momoka.dianping.service.AdService;
+import com.momoka.dianping.util.FileUtil;
 
 @Service
 public class AdServiceImpl implements AdService{
@@ -69,6 +70,42 @@ public class AdServiceImpl implements AdService{
 			BeanUtils.copyProperties(ad, adDtoTemp);
 		}
 		
+		return result;
+	}
+
+
+	@Override
+	public boolean modify(AdDto adDto) {
+		// TODO Auto-generated method stub
+		Ad ad = new Ad();
+		BeanUtils.copyProperties(adDto, ad);
+		String fileName = null;
+		if (adDto.getImgFile() != null && adDto.getImgFile().getSize() > 0) {
+			try {
+				fileName = FileUtil.save(adDto.getImgFile(), adImageSavePath);
+				ad.setImgFileName(fileName);
+			} catch (IllegalStateException | IOException e) {
+				// TODO 需要添加日志
+				return false;
+			}
+		}
+		int updateCount = adDao.update(ad);
+		if (updateCount != 1) {
+			return false;
+		}
+		if (fileName != null) {
+			return FileUtil.delete(adImageSavePath + adDto.getImgFileName());
+		}
+		return true;
+	}
+
+
+	@Override
+	public Object getById(Long id) {
+		AdDto result = new AdDto();
+		Ad ad = adDao.selectById(id);
+		BeanUtils.copyProperties(ad, result);
+		result.setImg(adImageUrl + ad.getImgFileName());
 		return result;
 	}
 
