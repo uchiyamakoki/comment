@@ -84,6 +84,9 @@
 		                        <div class="ileft" id="subMenuDiv">
 		                        	<h3 onclick="clickSubMenu(this,'/ad')"><a>广告管理</a></h3>
 		                        </div>
+		                         <div class="ileft" id="subMenuDiv">
+		                        	<h3 onclick="clickSubMenu(this,'/businesses')"><a>商户管理</a></h3>
+		                        </div>
 		                    </div>
 		                </td>
 		                <td width="7">
