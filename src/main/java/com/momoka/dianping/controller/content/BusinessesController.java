@@ -1,22 +1,33 @@
 package com.momoka.dianping.controller.content;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.momoka.dianping.constant.DicTypeConst;
 import com.momoka.dianping.dto.BusinessDto;
+import com.momoka.dianping.service.BusinessService;
+import com.momoka.dianping.service.DicService;
 
 @Controller
 @RequestMapping("/businesses")
 public class BusinessesController {
 	
+	@Resource
+	private DicService dicService;
+	@Resource
+	private BusinessService businessService; 
 	/**
 	 * 商户列表
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String search(BusinessDto dto) {
+	public String search(Model model,BusinessDto dto) {
+		model.addAttribute("list", businessService.searchByPage(dto));
+		model.addAttribute("searchParam", dto);
 		return "/content/businessList";
 	}
 	
@@ -50,6 +61,9 @@ public class BusinessesController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String modifyInit(Model model, @PathVariable("id") Long id) {
+		model.addAttribute("cityList",dicService.getListByType(DicTypeConst.CITY));
+		model.addAttribute("categoryList",dicService.getListByType(DicTypeConst.CATEGORY));
+		model.addAttribute("modifyObj",businessService.getById(id));
 		return "/content/businessModify";
 	}
 
@@ -58,6 +72,7 @@ public class BusinessesController {
 	 */
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public String modify(@PathVariable("id") Long id, BusinessDto dto) {
+		System.out.println(id);
 		return "/content/businessModify";
 	}
 
